@@ -1,17 +1,16 @@
 import Tracker from './classes/tracker';
-import Meal from './classes/Meal'
-import Workout from './classes/Workout';
+
+import ParentClass from "./classes/ParentClass"
 
 interface TrackerAppInterface {
     _tracker: Tracker;
 }
 
-
 class App implements TrackerAppInterface {
     _tracker: Tracker;
 
-    constructor(calorieLimit: number, totalCalories: number, meals: any[], workouts: any[]) {
-        this._tracker = new Tracker(calorieLimit, totalCalories, meals, workouts);
+    constructor(calorieLimit: number, totalCalories: number, items: ParentClass[]) {
+        this._tracker = new Tracker(calorieLimit, totalCalories, items);
 
         this._tracker._render();
 
@@ -36,7 +35,7 @@ class App implements TrackerAppInterface {
         document.getElementById('reset-btn')?.addEventListener('click', this._reset.bind(this));
         document.getElementById('set-daily-limit')?.addEventListener('click', this._showLimitModal.bind(this));
         document.getElementById('limit-form')?.addEventListener('submit', this._setLimit.bind(this));
-        document.getElementById('close-modal-btn')?.addEventListener('click', this._closeLimitModal.bind(this))
+        document.getElementById('close-modal-btn')?.addEventListener('click', this._closeLimitModal.bind(this));
     }
 
     _toggleForm(type: string) {
@@ -45,69 +44,64 @@ class App implements TrackerAppInterface {
     }
 
     _newItem(type: string, e: Event) {
-        e.preventDefault(); 
-    
+        e.preventDefault();
+
         const nameInput = document.getElementById(`${type}-name`) as HTMLInputElement;
         const caloriesInput = document.getElementById(`${type}-calories`) as HTMLInputElement;
-    
+
         if (!nameInput.value || !caloriesInput.value) {
             alert('Please fill in all fields');
             return;
         }
-    
-        if (type === 'meal') {
-            const meal = new Meal(nameInput.value, +caloriesInput.value);
-            this._tracker.addMeal(meal);
-        } else {
-            const workout = new Workout(nameInput.value, +caloriesInput.value);
-            this._tracker.addWorkout(workout);
-        }
-    
+
+        const item = new ParentClass(nameInput.value, +caloriesInput.value, type);
+        this._tracker.addItem(item);
+
         nameInput.value = '';
         caloriesInput.value = '';
     }
 
     _filterItems(type: string, e: Event): void {
-            const input = e.target as HTMLInputElement;
-            const text = input.value.toLowerCase();
-        
-            const items = document.querySelectorAll(`#${type}-items .card`);
-            items.forEach((item) => {
-                const nameElement = item.firstElementChild?.firstElementChild as HTMLElement;
-                const name = nameElement?.textContent?.toLowerCase();
-        
-                if (name && name.indexOf(text) !== -1) {
+        const input = e.target as HTMLInputElement;
+        const text = input.value.toLowerCase();
+
+        const items = document.querySelectorAll(`#${type}-items .card`);
+        items.forEach((item) => {
+            const nameElement = item.firstElementChild?.firstElementChild as HTMLElement;
+            const name = nameElement?.textContent?.toLowerCase();
+
+            if (name && name.indexOf(text) !== -1) {
                 (item as HTMLElement).style.display = 'block';
-                } else {
+            } else {
                 (item as HTMLElement).style.display = 'none';
-                }
-            });
+            }
+        });
     }
 
     _showLimitModal(e: Event): void {
         e.preventDefault();
         console.log('set visible');
         const modal = document.querySelector('.limit-modal') as HTMLDivElement;
-    
+
         modal.classList.toggle('visible');
     }
 
-    _closeLimitModal(e: Event): void{
+    _closeLimitModal(e: Event): void {
         const modal = document.querySelector('.limit-modal') as HTMLDivElement;
-        modal.classList.remove("visible")
+        modal.classList.remove("visible");
     }
 
-    _setLimit(e: Event){  
-        e.preventDefault()
-        const limit = document.getElementById("limit") as HTMLInputElement
+    _setLimit(e: Event) {
+        e.preventDefault();
+        const limit = document.getElementById("limit") as HTMLInputElement;
 
-        if(limit.value === ''){
-            alert('Please add a limit')
-            return
+        if (limit.value === '') {
+            alert('Please add a limit');
+            return;
         }
 
-        this._tracker.setLimit(limit.value)
-        limit.value = ''
+        this._tracker.setLimit(+limit.value);
+        limit.value = '';
     }
 
     _reset() {
@@ -128,4 +122,4 @@ class App implements TrackerAppInterface {
     }
 }
 
-const app = new App(2000, 0, [], []);
+const app = new App(2000, 0, []);
