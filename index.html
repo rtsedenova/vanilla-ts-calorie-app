@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Calorie Tracker</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="header-section-bg">
+      <header>
+        <h1>Calorie Tracker</h1>
+        <div class="header-actions">
+          <button class="btn" id="set-daily-limit">Set Daily Limit</button>
+          <button class="btn" id="reset-btn">Reset Day</button>
+        </div>
+      </header>
+
+      <!-- Stats -->
+      <section class="stats">
+        <div class="flex-row">
+          <div id="daily-limit" class="stats-item">
+            <div id="calories-limit"></div>
+            <p>Daily Calorie Limit</p>
+          </div>
+          <div id="gain-loss" class="stats-item">
+            <div id="calories-total"></div>
+            <p>Gain/Loss</p>
+          </div>
+        </div>
+
+        <div class="flex-row">
+          <div class="stats-item-lower">
+            <div id="calories-consumed"></div>
+            <p>Calories Consumed</p>
+          </div>
+          <div class="stats-item-lower">
+            <div id="calories-burned"></div>
+            <p>Calories Burned</p>
+          </div>
+          <div class="stats-item-lower" id="remainingEl">
+            <div id="calories-remaining" class="usual-state"></div>
+            <p>Calories Remaining</p>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <section class="progress-bar">
+      <div class="progress">
+        <div id="calorie-progress" role="progressbar"></div>
+      </div>
+    </section>
+
+    <section class="filter">
+      <div class="flex-row">
+        <div class="inputbox">
+          <input type="text" required="required" id="filter-meals">
+          <span>Search meals...</span>
+          <i></i>
+      </div>
+        <div class="inputbox" id="workout-filter">
+          <input type="text" required="required" id="filter-workouts">
+          <span>Search workouts...</span>
+          <i></i>
+      </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Items -->
+    <div class="items-and-cards">
+      <section class="items">
+        <div class="flex-row">
+          <!-- Meals -->
+          <div class="meal">
+            <div class="meal-header">
+              <h2 class="meal-title">Meals</h2>
+              <button class="btn toggle-btn" id="meal-btn">Add Meal</button>
+            </div>
+  
+            <!-- Add Meal Form -->
+            <div class="collapse-meal">
+              <form id="meal-form">
+                <div class="form-group">
+                  <input
+                    class="input"
+                    id="meal-name"
+                    type="text"
+                    placeholder="Enter Meal"
+                  />
+                </div>
+                <div class="form-group">
+                  <input
+                    class="input"
+                    id="meal-calories"
+                    type="number"
+                    placeholder="Enter Calories"
+                  />
+                </div>
+                <button class="btn" id="meal-btn" type="submit">
+                  Add Meal Item
+                </button>
+              </form>
+            </div>
+          </div>
+  
+          <!-- Workout -->
+          <div class="workout">
+            <div class="workout-header">
+              <h2 class="workout-title">Workouts</h2>
+              <button class="btn toggle-btn" id="workout-btn">Add Workout</button>
+            </div>
+  
+            <!-- Add Workout Form -->
+            <div class="collapse-workout">
+              <form id="workout-form">
+                <div class="form-group">
+                  <input
+                    class="input"
+                    id="workout-name"
+                    type="text"
+                    placeholder="Enter Workout"
+                  />
+                </div>
+                <div class="form-group">
+                  <input
+                    class="input"
+                    id="workout-calories"
+                    type="number"
+                    placeholder="Enter Calories"
+                  />
+                </div>
+                <button class="btn" id="workout-btn" type="submit">
+                  Add Workout Item
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </section>
+  
+      <section class="items-cards">
+        <div class="flex-row">
+          <div id="meal-items"></div>
+          <div id="workout-items"></div>
+        </div>
+      </section>
+      
+    </div>
+    
+    <!-- Calorie Limit Modal -->
+    <div class="limit-modal" tabindex="-1">
+      <div class="dialog">
+        <div class="content">
+          <div class="modal-header">
+            <h1 id="modal-header-title">Set Daily Limit</h1>
+            <button class="btn" id="close-modal-btn" type="button">⨉</button>
+          </div>
+          <div class="modal-body">
+            <form id="limit-form">
+              <div class="form-group">
+                <label for="limit">Daily Calorie Limit</label>
+                <input type="text" class="input" placeholder="2000" id="limit"/>
+              </div>
+              <button class="btn" id="modal-btn" type="submit">Save</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script type="module" src="/main.ts"></script>
+  </body>
+</html>
